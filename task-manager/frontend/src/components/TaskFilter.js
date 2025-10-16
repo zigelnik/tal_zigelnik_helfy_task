@@ -4,7 +4,7 @@ import './TaskFilter.css';
 function TaskFilter({ filter, onFilterChange, taskCounts }) {
   const filters = [
     { value: 'all', label: 'All Tasks', icon: '📋' },
-    { value: 'active', label: 'Active', icon: '⚡' },
+    { value: 'pending', label: 'Pending', icon: '⏳' },
     { value: 'completed', label: 'Completed', icon: '✓' }
   ];
 
@@ -25,7 +25,7 @@ function TaskFilter({ filter, onFilterChange, taskCounts }) {
             <span className="filter-label">{label}</span>
             <span className="filter-count">
               {value === 'all' && taskCounts.all}
-              {value === 'active' && taskCounts.active}
+              {value === 'pending' && taskCounts.pending}
               {value === 'completed' && taskCounts.completed}
             </span>
           </button>
@@ -39,8 +39,8 @@ function TaskFilter({ filter, onFilterChange, taskCounts }) {
         </div>
         <div className="stat-divider">|</div>
         <div className="stat-item">
-          <span className="stat-label">Active:</span>
-          <span className="stat-value active">{taskCounts.active}</span>
+          <span className="stat-label">Pending:</span>
+          <span className="stat-value pending">{taskCounts.pending}</span>
         </div>
         <div className="stat-divider">|</div>
         <div className="stat-item">

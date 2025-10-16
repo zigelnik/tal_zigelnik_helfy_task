@@ -42,6 +42,79 @@
   font-size: 0.9rem;
 }
 
+.error-banner {
+  max-width: 1200px;
+  margin: 0 auto 2rem auto;
+  background: #ffebee;
+  color: #c62828;
+  padding: 1rem 1.5rem;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  box-shadow: 0 4px 12px rgba(198, 40, 40, 0.2);
+  animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.error-icon {
+  font-size: 1.5rem;
+}
+
+.error-close {
+  margin-left: auto;
+  background: none;
+  border: none;
+  color: #c62828;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  transition: background 0.2s;
+}
+
+.error-close:hover {
+  background: rgba(198, 40, 40, 0.1);
+}
+
+.loading-container {
+  text-align: center;
+  padding: 4rem 2rem;
+  color: white;
+}
+
+.spinner {
+  width: 60px;
+  height: 60px;
+  margin: 0 auto 1.5rem;
+  border: 4px solid rgba(255, 255, 255, 0.3);
+  border-top: 4px solid white;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.loading-container p {
+  font-size: 1.2rem;
+  opacity: 0.9;
+}
+
 @media (max-width: 768px) {
   .App {
     padding: 1rem 0.5rem;
@@ -53,6 +126,11 @@
 
   .subtitle {
     font-size: 1rem;
+  }
+
+  .error-banner {
+    padding: 1rem;
+    font-size: 0.9rem;
   }
 }
 

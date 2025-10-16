@@ -1,77 +1,99 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import TaskForm from './components/TaskForm';
 import TaskFilter from './components/TaskFilter';
 import TaskList from './components/TaskList';
+import { getTasks, createTask, updateTask, deleteTask } from './api/taskApi';
 import './App.css';
 
 function App() {
-  const [tasks, setTasks] = useState([
-    {
-      id: 1,
-      title: 'Welcome to Task Manager',
-      description: 'This is your first task. You can edit or delete it!',
-      completed: false,
-      createdAt: new Date().toISOString(),
-      priority: 'low'
-    },
-    {
-      id: 2,
-      title: 'Create New Tasks',
-      description: 'Use the form above to create new tasks with title, description and priority',
-      completed: false,
-      createdAt: new Date().toISOString(),
-      priority: 'low'
-    },
-    {
-      id: 3,
-      title: 'Mark Tasks Complete',
-      description: 'Click the checkbox to mark tasks as completed',
-      completed: true,
-      createdAt: new Date().toISOString(),
-      priority: 'low'
-    }
-  ]);
+  const [tasks, setTasks] = useState([]);
   const [filter, setFilter] = useState('all');
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  // Fetch tasks on component mount
+  useEffect(() => {
+    fetchTasks();
+  }, []);
+
+  // Fetch all tasks from API
+  const fetchTasks = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      const data = await getTasks();
+      setTasks(data);
+    } catch (err) {
+      setError('Failed to load tasks. Please check if the backend server is running.');
+      console.error('Error fetching tasks:', err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   // Add new task
-  const handleAddTask = (taskData) => {
-    const newTask = {
-      id: Date.now(),
-      title: taskData.title,
-      description: taskData.description,
-      priority: taskData.priority,
-      completed: false,
-      createdAt: new Date().toISOString()
-    };
-    setTasks([...tasks, newTask]);
+  const handleAddTask = async (taskData) => {
+    try {
+      setError(null);
+      const newTask = await createTask(taskData);
+      setTasks([...tasks, newTask]);
+    } catch (err) {
+      setError('Failed to create task. Please try again.');
+      console.error('Error creating task:', err);
+    }
   };
 
   // Toggle task completion
-  const handleToggleTask = (id) => {
-    setTasks(tasks.map(task =>
-      task.id === id ? { ...task, completed: !task.completed } : task
-    ));
+  const handleToggleTask = async (id) => {
+    try {
+      setError(null);
+      const task = tasks.find(t => t.id === id);
+      const updatedTask = await updateTask(id, {
+        ...task,
+        completed: !task.completed
+      });
+      setTasks(tasks.map(t => t.id === id ? updatedTask : t));
+    } catch (err) {
+      setError('Failed to update task. Please try again.');
+      console.error('Error toggling task:', err);
+    }
   };
 
   // Delete task
-  const handleDeleteTask = (id) => {
+  const handleDeleteTask = async (id) => {
     const confirmed = window.confirm('Are you sure you want to delete this task?');
     if (confirmed) {
-      setTasks(tasks.filter(task => task.id !== id));
+      try {
+        setError(null);
+        await deleteTask(id);
+        setTasks(tasks.filter(task => task.id !== id));
+      } catch (err) {
+        setError('Failed to delete task. Please try again.');
+        console.error('Error deleting task:', err);
+      }
     }
   };
 
   // Edit task
-  const handleEditTask = (id, updatedData) => {
-    setTasks(tasks.map(task =>
-      task.id === id ? { ...task, ...updatedData } : task
-    ));
+  const handleEditTask = async (id, updatedData) => {
+    try {
+      setError(null);
+      const task = tasks.find(t => t.id === id);
+      const updatedTask = await updateTask(id, {
+        ...task,
+        ...updatedData
+      });
+      setTasks(tasks.map(t => t.id === id ? updatedTask : t));
+    } catch (err) {
+      setError('Failed to update task. Please try again.');
+      console.error('Error updating task:', err);
+    }
   };
 
   // Filter tasks
   const getFilteredTasks = () => {
     switch (filter) {
-      case 'active':
+      case 'pending':
         return tasks.filter(task => !task.completed);
       case 'completed':
         return tasks.filter(task => task.completed);
@@ -83,7 +105,7 @@ function App() {
   // Calculate task counts
   const taskCounts = {
     all: tasks.length,
-    active: tasks.filter(task => !task.completed).length,
+    pending: tasks.filter(task => !task.completed).length,
     completed: tasks.filter(task => task.completed).length
   };
 
@@ -96,6 +118,14 @@ function App() {
         <p className="subtitle">Organize your tasks with an endless carousel</p>
       </header>
 
+      {error && (
+        <div className="error-banner">
+          <span className="error-icon">⚠️</span>
+          <span>{error}</span>
+          <button onClick={() => setError(null)} className="error-close">×</button>
+        </div>
+      )}
+
       <main className="App-main">
         <TaskForm onAddTask={handleAddTask} />
         
@@ -105,16 +135,23 @@ function App() {
           taskCounts={taskCounts}
         />
 
-        <TaskList
-          tasks={filteredTasks}
-          onToggle={handleToggleTask}
-          onDelete={handleDeleteTask}
-          onEdit={handleEditTask}
-        />
+        {loading ? (
+          <div className="loading-container">
+            <div className="spinner"></div>
+            <p>Loading tasks...</p>
+          </div>
+        ) : (
+          <TaskList
+            tasks={filteredTasks}
+            onToggle={handleToggleTask}
+            onDelete={handleDeleteTask}
+            onEdit={handleEditTask}
+          />
+        )}
       </main>
 
       <footer className="App-footer">
-        <p>Built with React • Endless Carousel View</p>
+        <p>Built with React • Endless Carousel View • API Integrated</p>
       </footer>
     </div>
   );
