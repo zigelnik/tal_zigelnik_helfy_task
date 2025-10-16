@@ -197,9 +197,18 @@
   line-height: 1;
 }
 
+/* Tablet */
+@media (max-width: 992px) {
+  .task-form-container {
+    max-width: 600px;
+  }
+}
+
+/* Mobile */
 @media (max-width: 768px) {
   .task-form-container {
-    margin: 1rem auto;
+    margin: 1.5rem auto;
+    padding: 0 0.5rem;
   }
 
   .task-form {
@@ -210,9 +219,49 @@
     font-size: 1.3rem;
   }
 
+  .task-input,
+  .task-textarea {
+    font-size: 16px; /* Prevents zoom on iOS */
+  }
+
   .priority-selector {
     flex-direction: column;
     gap: 0.75rem;
+  }
+
+  .priority-badge {
+    padding: 0.875rem;
+    font-size: 1rem;
+  }
+}
+
+/* Small Mobile */
+@media (max-width: 480px) {
+  .task-form-container {
+    margin: 1rem auto;
+  }
+
+  .task-form {
+    padding: 1rem;
+    border-radius: 12px;
+  }
+
+  .form-header h2 {
+    font-size: 1.2rem;
+  }
+
+  .form-group {
+    margin-bottom: 1.25rem;
+  }
+
+  .task-input,
+  .task-textarea {
+    padding: 0.75rem;
+  }
+
+  .submit-btn {
+    padding: 0.875rem 1.5rem;
+    font-size: 1rem;
   }
 }
 

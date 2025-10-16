@@ -1,0 +1,125 @@
+/* Additional responsive utilities and touch optimizations */
+
+/* Touch-friendly buttons and interactive elements */
+@media (max-width: 768px) {
+  /* Increase touch target sizes */
+  button,
+  input[type="checkbox"],
+  input[type="radio"],
+  .filter-btn,
+  .carousel-btn,
+  .indicator {
+    min-height: 44px; /* iOS recommended touch target */
+  }
+
+  /* Prevent text selection on double-tap */
+  * {
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0.1);
+    -webkit-touch-callout: none;
+  }
+
+  /* Allow text selection in inputs and textareas */
+  input,
+  textarea {
+    -webkit-touch-callout: default;
+    -webkit-user-select: text;
+    user-select: text;
+  }
+
+  /* Smooth scrolling */
+  * {
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Optimize animations for mobile */
+  * {
+    transition-duration: 0.2s !important;
+  }
+}
+
+/* Landscape orientation on mobile */
+@media (max-width: 768px) and (orientation: landscape) {
+  .App {
+    padding: 0.5rem;
+  }
+
+  .App-header {
+    padding: 1rem 0;
+    margin-bottom: 1rem;
+  }
+
+  .App-header h1 {
+    font-size: 1.75rem;
+  }
+
+  .subtitle {
+    font-size: 0.9rem;
+  }
+
+  .carousel-wrapper {
+    height: 300px;
+  }
+
+  .task-form {
+    padding: 1.25rem;
+  }
+
+  .task-filter-container {
+    padding: 1rem;
+  }
+
+  .filter-buttons {
+    flex-direction: row;
+    gap: 0.5rem;
+  }
+
+  .filter-btn {
+    flex-direction: column;
+  }
+}
+
+/* Very small screens */
+@media (max-width: 360px) {
+  .App {
+    padding: 0.25rem;
+  }
+
+  .App-header h1 {
+    font-size: 1.5rem;
+  }
+
+  .task-form,
+  .task-filter-container {
+    padding: 0.875rem;
+  }
+
+  .carousel-btn {
+    width: 35px;
+    height: 35px;
+    font-size: 1.2rem;
+  }
+}
+
+/* High DPI screens */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  /* Optimize font rendering */
+  body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+/* Reduce motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Dark mode support (optional) */
+@media (prefers-color-scheme: dark) {
+  /* Add dark mode styles if needed in the future */
+}
+

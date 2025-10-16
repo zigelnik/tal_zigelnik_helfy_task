@@ -140,14 +140,31 @@
   font-weight: 500;
 }
 
-@media (max-width: 768px) {
+/* Tablet */
+@media (max-width: 992px) {
+  .task-list-container {
+    max-width: 550px;
+  }
+
   .carousel-wrapper {
-    height: 380px;
+    height: 360px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .task-list-container {
+    padding: 1.5rem 0;
+    margin: 1.5rem auto;
+  }
+
+  .carousel-wrapper {
+    height: 400px;
   }
 
   .carousel-btn {
-    width: 40px;
-    height: 40px;
+    width: 45px;
+    height: 45px;
     font-size: 1.5rem;
   }
 
@@ -160,7 +177,61 @@
   }
 
   .carousel-item {
-    width: 85%;
+    width: 90%;
+  }
+
+  .carousel-indicators {
+    margin-top: 1.5rem;
+    gap: 6px;
+  }
+
+  .indicator {
+    width: 8px;
+    height: 8px;
+  }
+}
+
+/* Small Mobile */
+@media (max-width: 480px) {
+  .task-list-container {
+    padding: 1rem 0;
+    margin: 1rem auto;
+  }
+
+  .task-list-empty {
+    padding: 2rem 1rem;
+    font-size: 1rem;
+  }
+
+  .carousel-wrapper {
+    height: 420px;
+  }
+
+  .carousel-btn {
+    width: 38px;
+    height: 38px;
+    font-size: 1.3rem;
+  }
+
+  .prev-btn {
+    left: 2px;
+  }
+
+  .next-btn {
+    right: 2px;
+  }
+
+  .carousel-item {
+    width: 95%;
+  }
+
+  .carousel-counter {
+    font-size: 0.85rem;
+    margin-top: 0.75rem;
+  }
+
+  .carousel-indicators {
+    margin-top: 1.25rem;
   }
 }
 

@@ -115,9 +115,26 @@
   opacity: 0.9;
 }
 
+/* Tablet */
+@media (max-width: 992px) {
+  .App {
+    padding: 1.5rem 1rem;
+  }
+
+  .App-header h1 {
+    font-size: 2.5rem;
+  }
+}
+
+/* Mobile */
 @media (max-width: 768px) {
   .App {
-    padding: 1rem 0.5rem;
+    padding: 1rem 0.75rem;
+  }
+
+  .App-header {
+    padding: 1.5rem 0;
+    margin-bottom: 1.5rem;
   }
 
   .App-header h1 {
@@ -131,6 +148,41 @@
   .error-banner {
     padding: 1rem;
     font-size: 0.9rem;
+    flex-wrap: wrap;
+  }
+
+  .loading-container {
+    padding: 3rem 1rem;
+  }
+
+  .spinner {
+    width: 50px;
+    height: 50px;
+  }
+}
+
+/* Small Mobile */
+@media (max-width: 480px) {
+  .App {
+    padding: 0.5rem;
+  }
+
+  .App-header h1 {
+    font-size: 1.75rem;
+  }
+
+  .subtitle {
+    font-size: 0.9rem;
+  }
+
+  .error-banner {
+    font-size: 0.85rem;
+    padding: 0.75rem;
+  }
+
+  .App-footer {
+    font-size: 0.8rem;
+    margin-top: 2rem;
   }
 }
 

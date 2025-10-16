@@ -6,6 +6,13 @@ function TaskList({ tasks, onToggle, onDelete, onEdit }) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
 
+  // Reset currentIndex if it's out of bounds
+  useEffect(() => {
+    if (tasks.length > 0 && currentIndex >= tasks.length) {
+      setCurrentIndex(0);
+    }
+  }, [tasks.length, currentIndex]);
+
   // Auto-scroll carousel every 3 seconds
   useEffect(() => {
     if (tasks.length === 0) return;
@@ -50,6 +57,8 @@ function TaskList({ tasks, onToggle, onDelete, onEdit }) {
 
   // Create endless carousel effect by showing 3 tasks (prev, current, next)
   const getVisibleTasks = () => {
+    if (!tasks || tasks.length === 0) return [];
+    
     const prevIndex = (currentIndex - 1 + tasks.length) % tasks.length;
     const nextIndex = (currentIndex + 1) % tasks.length;
     
@@ -57,7 +66,7 @@ function TaskList({ tasks, onToggle, onDelete, onEdit }) {
       { task: tasks[prevIndex], position: 'prev', index: prevIndex },
       { task: tasks[currentIndex], position: 'current', index: currentIndex },
       { task: tasks[nextIndex], position: 'next', index: nextIndex }
-    ];
+    ].filter(item => item.task); // Filter out any undefined tasks
   };
 
   return (
@@ -69,15 +78,17 @@ function TaskList({ tasks, onToggle, onDelete, onEdit }) {
       <div className="carousel-wrapper">
         <div className={`carousel-track ${isAnimating ? 'animating' : ''}`}>
           {getVisibleTasks().map(({ task, position, index }) => (
-            <div key={`${index}-${position}`} className={`carousel-item ${position}`}>
-              <TaskItem
-                task={task}
-                onToggle={onToggle}
-                onDelete={onDelete}
-                onEdit={onEdit}
-                isActive={position === 'current'}
-              />
-            </div>
+            task && (
+              <div key={`${task.id}-${position}`} className={`carousel-item ${position}`}>
+                <TaskItem
+                  task={task}
+                  onToggle={onToggle}
+                  onDelete={onDelete}
+                  onEdit={onEdit}
+                  isActive={position === 'current'}
+                />
+              </div>
+            )
           ))}
         </div>
       </div>

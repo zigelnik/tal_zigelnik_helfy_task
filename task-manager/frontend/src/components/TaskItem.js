@@ -2,11 +2,16 @@ import React, { useState } from 'react';
 import '../styles/TaskItem.css';
 
 function TaskItem({ task, onToggle, onDelete, onEdit, isActive }) {
+  // Validate task prop
+  if (!task) {
+    return null;
+  }
+
   const [isEditing, setIsEditing] = useState(false);
   const [editData, setEditData] = useState({
-    title: task.title,
-    description: task.description,
-    priority: task.priority
+    title: task.title || '',
+    description: task.description || '',
+    priority: task.priority || 'low'
   });
 
   const handleSave = () => {

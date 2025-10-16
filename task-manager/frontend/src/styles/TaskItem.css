@@ -217,23 +217,105 @@
   margin-top: 0.75rem;
 }
 
+/* Tablet */
+@media (max-width: 992px) {
+  .task-item {
+    padding: 1.75rem;
+    min-height: 270px;
+  }
+
+  .task-title {
+    font-size: 1.4rem;
+  }
+}
+
+/* Mobile */
 @media (max-width: 768px) {
   .task-item {
     padding: 1.5rem;
-    min-height: 260px;
+    min-height: 280px;
+  }
+
+  .task-item-header {
+    margin-bottom: 1rem;
   }
 
   .task-title {
     font-size: 1.3rem;
+    margin-bottom: 0.65rem;
   }
 
   .task-description {
     font-size: 0.95rem;
+    line-height: 1.5;
+  }
+
+  .priority-indicator {
+    padding: 0.35rem 0.85rem;
+    font-size: 0.75rem;
   }
 
   .priority-edit {
     flex-direction: column;
     align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .priority-select {
+    width: 100%;
+  }
+
+  .task-edit-input,
+  .task-edit-textarea {
+    font-size: 16px; /* Prevents zoom on iOS */
+  }
+
+  .task-btn {
+    font-size: 0.95rem;
+  }
+
+  .save-btn,
+  .cancel-btn {
+    padding: 0.5rem 1.25rem;
+  }
+}
+
+/* Small Mobile */
+@media (max-width: 480px) {
+  .task-item {
+    padding: 1.25rem;
+    min-height: 260px;
+  }
+
+  .task-title {
+    font-size: 1.2rem;
+  }
+
+  .task-description {
+    font-size: 0.9rem;
+  }
+
+  .checkbox-label {
+    width: 28px;
+    height: 28px;
+  }
+
+  .priority-indicator {
+    padding: 0.3rem 0.7rem;
+    font-size: 0.7rem;
+  }
+
+  .task-item-footer {
+    padding-top: 0.75rem;
+  }
+
+  .edit-btn,
+  .delete-btn {
+    font-size: 1.2rem;
+  }
+
+  .task-timestamp {
+    font-size: 0.7rem;
   }
 }
 

@@ -22,10 +22,12 @@ function App() {
       setLoading(true);
       setError(null);
       const data = await getTasks();
-      setTasks(data);
+      // Ensure data is an array
+      setTasks(Array.isArray(data) ? data : []);
     } catch (err) {
       setError('Failed to load tasks. Please check if the backend server is running.');
       console.error('Error fetching tasks:', err);
+      setTasks([]); // Set empty array on error
     } finally {
       setLoading(false);
     }
@@ -36,7 +38,9 @@ function App() {
     try {
       setError(null);
       const newTask = await createTask(taskData);
-      setTasks([...tasks, newTask]);
+      if (newTask && newTask.id) {
+        setTasks([...tasks, newTask]);
+      }
     } catch (err) {
       setError('Failed to create task. Please try again.');
       console.error('Error creating task:', err);
@@ -47,12 +51,17 @@ function App() {
   const handleToggleTask = async (id) => {
     try {
       setError(null);
-      const task = tasks.find(t => t.id === id);
+      const task = tasks.find(t => t && t.id === id);
+      if (!task) return;
+      
       const updatedTask = await updateTask(id, {
         ...task,
         completed: !task.completed
       });
-      setTasks(tasks.map(t => t.id === id ? updatedTask : t));
+      
+      if (updatedTask) {
+        setTasks(tasks.map(t => t.id === id ? updatedTask : t));
+      }
     } catch (err) {
       setError('Failed to update task. Please try again.');
       console.error('Error toggling task:', err);
@@ -78,12 +87,17 @@ function App() {
   const handleEditTask = async (id, updatedData) => {
     try {
       setError(null);
-      const task = tasks.find(t => t.id === id);
+      const task = tasks.find(t => t && t.id === id);
+      if (!task) return;
+      
       const updatedTask = await updateTask(id, {
         ...task,
         ...updatedData
       });
-      setTasks(tasks.map(t => t.id === id ? updatedTask : t));
+      
+      if (updatedTask) {
+        setTasks(tasks.map(t => t.id === id ? updatedTask : t));
+      }
     } catch (err) {
       setError('Failed to update task. Please try again.');
       console.error('Error updating task:', err);
@@ -92,21 +106,23 @@ function App() {
 
   // Filter tasks
   const getFilteredTasks = () => {
+    if (!Array.isArray(tasks)) return [];
+    
     switch (filter) {
       case 'pending':
-        return tasks.filter(task => !task.completed);
+        return tasks.filter(task => task && !task.completed);
       case 'completed':
-        return tasks.filter(task => task.completed);
+        return tasks.filter(task => task && task.completed);
       default:
-        return tasks;
+        return tasks.filter(task => task); // Filter out any undefined/null tasks
     }
   };
 
   // Calculate task counts
   const taskCounts = {
-    all: tasks.length,
-    pending: tasks.filter(task => !task.completed).length,
-    completed: tasks.filter(task => task.completed).length
+    all: Array.isArray(tasks) ? tasks.filter(t => t).length : 0,
+    pending: Array.isArray(tasks) ? tasks.filter(task => task && !task.completed).length : 0,
+    completed: Array.isArray(tasks) ? tasks.filter(task => task && task.completed).length : 0
   };
 
   const filteredTasks = getFilteredTasks();
