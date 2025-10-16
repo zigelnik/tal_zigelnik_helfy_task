@@ -134,3 +134,53 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+
+
+-----
+
+# dependencies
+task-manager/frontend/node_modules
+task-manager/frontend/.pnp
+task-manager/frontend/.pnp.js
+
+# testing
+task-manager/frontend/coverage
+
+# production
+/build
+
+# misc
+task-manager/frontend/.DS_Store
+task-manager/frontend/.env.local
+task-manager/frontend/.env.development.local
+task-manager/frontend/.env.test.local
+task-manager/frontend/.env.production.local
+
+task-manager/frontend/npm-debug.log*
+task-manager/frontend/yarn-debug.log*
+task-manager/frontend/yarn-error.log*
+
+-----
+
+# dependencies
+task-manager/backend/node_modules
+task-manager/backend/.pnp
+task-manager/backend/.pnp.js
+
+# testing
+task-manager/backend/coverage
+
+# production
+task-manager/backend/build
+
+# misc
+task-manager/backend/.DS_Store
+task-manager/backend/.env.local
+task-manager/backend/.env.development.local
+task-manager/backend/.env.test.local
+task-manager/backend/.env.production.local
+
+task-manager/backend/npm-debug.log*
+task-manager/backend/yarn-debug.log*
+task-manager/backend/yarn-error.log*
+
