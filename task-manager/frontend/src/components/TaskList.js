@@ -5,6 +5,7 @@ import '../styles/TaskList.css';
 function TaskList({ tasks, onToggle, onDelete, onEdit }) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
+  const [editingTaskId, setEditingTaskId] = useState(null);
 
   // Reset currentIndex if it's out of bounds
   useEffect(() => {
@@ -13,9 +14,9 @@ function TaskList({ tasks, onToggle, onDelete, onEdit }) {
     }
   }, [tasks.length, currentIndex]);
 
-  // Auto-scroll carousel every 3 seconds
+  // Auto-scroll carousel every 3 seconds (pause when editing)
   useEffect(() => {
-    if (tasks.length === 0) return;
+    if (tasks.length === 0 || editingTaskId !== null) return;
 
     const interval = setInterval(() => {
       setIsAnimating(true);
@@ -24,7 +25,7 @@ function TaskList({ tasks, onToggle, onDelete, onEdit }) {
     }, 3000);
 
     return () => clearInterval(interval);
-  }, [tasks.length]);
+  }, [tasks.length, editingTaskId]);
 
   const nextTask = () => {
     if (isAnimating || tasks.length === 0) return;
@@ -86,6 +87,8 @@ function TaskList({ tasks, onToggle, onDelete, onEdit }) {
                   onDelete={onDelete}
                   onEdit={onEdit}
                   isActive={position === 'current'}
+                  isEditing={editingTaskId === task.id}
+                  onEditingChange={(isEditing) => setEditingTaskId(isEditing ? task.id : null)}
                 />
               </div>
             )
@@ -111,6 +114,7 @@ function TaskList({ tasks, onToggle, onDelete, onEdit }) {
 
       <div className="carousel-counter">
         {currentIndex + 1} / {tasks.length}
+        {editingTaskId && <span className="carousel-paused"> • Paused</span>}
       </div>
     </div>
   );

@@ -1,23 +1,30 @@
 import React, { useState } from 'react';
 import '../styles/TaskItem.css';
 
-function TaskItem({ task, onToggle, onDelete, onEdit, isActive }) {
+function TaskItem({ task, onToggle, onDelete, onEdit, isActive, isEditing, onEditingChange }) {
   // Validate task prop
   if (!task) {
     return null;
   }
 
-  const [isEditing, setIsEditing] = useState(false);
   const [editData, setEditData] = useState({
     title: task.title || '',
     description: task.description || '',
     priority: task.priority || 'low'
   });
 
+  const handleStartEdit = () => {
+    if (onEditingChange) {
+      onEditingChange(true);
+    }
+  };
+
   const handleSave = () => {
     if (editData.title.trim() && editData.description.trim()) {
       onEdit(task.id, editData);
-      setIsEditing(false);
+      if (onEditingChange) {
+        onEditingChange(false);
+      }
     }
   };
 
@@ -27,7 +34,9 @@ function TaskItem({ task, onToggle, onDelete, onEdit, isActive }) {
       description: task.description,
       priority: task.priority
     });
-    setIsEditing(false);
+    if (onEditingChange) {
+      onEditingChange(false);
+    }
   };
 
   const getPriorityColor = (priority) => {
@@ -115,7 +124,7 @@ function TaskItem({ task, onToggle, onDelete, onEdit, isActive }) {
         ) : (
           <div className="task-actions">
             <button
-              onClick={() => setIsEditing(true)}
+              onClick={handleStartEdit}
               className="task-btn edit-btn"
               title="Edit task"
             >

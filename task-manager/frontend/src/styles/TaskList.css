@@ -140,6 +140,21 @@
   font-weight: 500;
 }
 
+.carousel-paused {
+  color: #ff9800;
+  font-weight: 600;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
 /* Tablet */
 @media (max-width: 992px) {
   .task-list-container {
@@ -228,6 +243,11 @@
   .carousel-counter {
     font-size: 0.85rem;
     margin-top: 0.75rem;
+  }
+
+  .carousel-paused {
+    display: block;
+    margin-top: 0.25rem;
   }
 
   .carousel-indicators {
