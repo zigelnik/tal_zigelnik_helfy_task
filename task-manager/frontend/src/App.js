@@ -3,7 +3,7 @@ import TaskForm from './components/TaskForm';
 import TaskFilter from './components/TaskFilter';
 import TaskList from './components/TaskList';
 import { getTasks, createTask, updateTask, deleteTask } from './services/taskService';
-import './App.css';
+import './styles/App.css';
 
 function App() {
   const [tasks, setTasks] = useState([]);
@@ -151,7 +151,6 @@ function App() {
       </main>
 
       <footer className="App-footer">
-        <p>Built with React • Endless Carousel View • API Integrated</p>
       </footer>
     </div>
   );

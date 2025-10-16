@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import TaskItem from './TaskItem';
-import './TaskList.css';
+import '../styles/TaskList.css';
 
 function TaskList({ tasks, onToggle, onDelete, onEdit }) {
   const [currentIndex, setCurrentIndex] = useState(0);

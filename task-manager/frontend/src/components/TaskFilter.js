@@ -1,5 +1,5 @@
 import React from 'react';
-import './TaskFilter.css';
+import '../styles/TaskFilter.css';
 
 function TaskFilter({ filter, onFilterChange, taskCounts }) {
   const filters = [
