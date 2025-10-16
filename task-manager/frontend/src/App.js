@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import TaskForm from './components/TaskForm';
 import TaskFilter from './components/TaskFilter';
 import TaskList from './components/TaskList';
-import { getTasks, createTask, updateTask, deleteTask } from './api/taskApi';
+import { getTasks, createTask, updateTask, deleteTask } from './services/taskService';
 import './App.css';
 
 function App() {
