@@ -25,6 +25,10 @@ app.get('/', (req, res) => {
 
 app.use('/api/tasks', require('./routes/tasks'));
 
+// 404 and error handlers
+app.use(require('./middleware/notFound'));
+app.use(require('./middleware/errorHandler'));
+
 // Start server
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
