@@ -9,11 +9,21 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Basic route
+// Routes
 app.get('/', (req, res) => {
-  res.json({ message: 'hello' });
+  res.json({
+    message: 'Welcome to Task Manager API',
+    endpoints: {
+      'GET /api/tasks': 'Get all tasks',
+      'POST /api/tasks': 'Create a new task',
+      'PUT /api/tasks/:id': 'Update a task',
+      'DELETE /api/tasks/:id': 'Delete a task',
+      'PATCH /api/tasks/:id/toggle': 'Toggle task completion'
+    }
+  });
 });
 
+app.use('/api/tasks', require('./routes/tasks'));
 
 // Start server
 app.listen(PORT, () => {
