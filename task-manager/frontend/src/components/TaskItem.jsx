@@ -149,4 +149,3 @@ function TaskItem({ task, onToggle, onDelete, onEdit, isActive, isEditing, onEdi
 }
 
 export default TaskItem;
-

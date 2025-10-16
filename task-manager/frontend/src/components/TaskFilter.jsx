@@ -53,4 +53,3 @@ function TaskFilter({ filter, onFilterChange, taskCounts }) {
 }
 
 export default TaskFilter;
-
