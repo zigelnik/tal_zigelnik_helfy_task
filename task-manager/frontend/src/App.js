@@ -8,30 +8,38 @@ function App() {
   const [tasks, setTasks] = useState([
     {
       id: 1,
-      text: 'Welcome to Task Manager! This is your first task.',
+      title: 'Welcome to Task Manager',
+      description: 'This is your first task. You can edit or delete it!',
       completed: false,
-      createdAt: new Date().toISOString()
+      createdAt: new Date().toISOString(),
+      priority: 'low'
     },
     {
       id: 2,
-      text: 'Try creating a new task using the form above',
+      title: 'Create New Tasks',
+      description: 'Use the form above to create new tasks with title, description and priority',
       completed: false,
-      createdAt: new Date().toISOString()
+      createdAt: new Date().toISOString(),
+      priority: 'low'
     },
     {
       id: 3,
-      text: 'Mark tasks as completed by clicking the checkbox',
+      title: 'Mark Tasks Complete',
+      description: 'Click the checkbox to mark tasks as completed',
       completed: true,
-      createdAt: new Date().toISOString()
+      createdAt: new Date().toISOString(),
+      priority: 'low'
     }
   ]);
   const [filter, setFilter] = useState('all');
 
   // Add new task
-  const handleAddTask = (text) => {
+  const handleAddTask = (taskData) => {
     const newTask = {
       id: Date.now(),
-      text,
+      title: taskData.title,
+      description: taskData.description,
+      priority: taskData.priority,
       completed: false,
       createdAt: new Date().toISOString()
     };
@@ -47,13 +55,16 @@ function App() {
 
   // Delete task
   const handleDeleteTask = (id) => {
-    setTasks(tasks.filter(task => task.id !== id));
+    const confirmed = window.confirm('Are you sure you want to delete this task?');
+    if (confirmed) {
+      setTasks(tasks.filter(task => task.id !== id));
+    }
   };
 
   // Edit task
-  const handleEditTask = (id, newText) => {
+  const handleEditTask = (id, updatedData) => {
     setTasks(tasks.map(task =>
-      task.id === id ? { ...task, text: newText } : task
+      task.id === id ? { ...task, ...updatedData } : task
     ));
   };
 
