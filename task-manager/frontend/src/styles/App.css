@@ -37,7 +37,7 @@
 .main-layout {
   display: flex;
   gap: 1rem;
-  height: 75vh;
+  min-height: 75vh;
   max-height: 100vh;
 }
 
@@ -47,14 +47,15 @@
   flex-direction: column;
   gap: 0.75rem;
   justify-content: flex-start;
-  overflow: hidden;
+  overflow: visible;
+  min-height: 0;
 }
 
 .right-panel {
   flex: 0 0 360px;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
+  overflow: visible;
 }
 
 .App-footer {
@@ -152,11 +153,17 @@
   .main-layout {
     flex-direction: column;
     gap: 1.5rem;
+    min-height: auto;
+    max-height: none;
   }
 
   .right-panel {
     flex: none;
     order: -1; /* Move form to top on tablet */
+  }
+
+  .left-panel {
+    overflow: visible;
   }
 }
 
@@ -164,6 +171,7 @@
 @media (max-width: 768px) {
   .App {
     padding: 1rem 0.75rem;
+    min-height: 100vh;
   }
 
   .App-header {
@@ -182,6 +190,8 @@
   .main-layout {
     flex-direction: column;
     gap: 1rem;
+    min-height: auto;
+    max-height: none;
   }
 
   .right-panel {
@@ -191,6 +201,7 @@
 
   .left-panel {
     gap: 1rem;
+    overflow: visible;
   }
 
   .error-banner {
@@ -213,6 +224,12 @@
 @media (max-width: 480px) {
   .App {
     padding: 0.5rem;
+    min-height: 100vh;
+  }
+
+  .App-header {
+    padding: 1rem 0;
+    margin-bottom: 1rem;
   }
 
   .App-header h1 {
@@ -223,9 +240,27 @@
     font-size: 0.9rem;
   }
 
+  .main-layout {
+    gap: 0.75rem;
+  }
+
+  .left-panel {
+    gap: 0.75rem;
+  }
+
   .error-banner {
     font-size: 0.85rem;
     padding: 0.75rem;
+    margin-bottom: 1rem;
+  }
+
+  .loading-container {
+    padding: 2rem 0.5rem;
+  }
+
+  .spinner {
+    width: 40px;
+    height: 40px;
   }
 
   .App-footer {

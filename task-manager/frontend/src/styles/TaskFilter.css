@@ -181,37 +181,38 @@
 /* Mobile */
 @media (max-width: 768px) {
   .task-filter-container {
-    margin: 1.5rem auto;
-    padding: 1.25rem;
+    margin: 1rem auto;
+    padding: 1rem;
+    max-width: 100%;
   }
 
   .filter-header h3 {
-    font-size: 1.1rem;
+    font-size: 1rem;
   }
 
   .filter-buttons {
     flex-direction: column;
-    gap: 0.75rem;
+    gap: 0.5rem;
   }
 
   .filter-btn {
     flex-direction: row;
     justify-content: space-between;
-    padding: 0.875rem 1rem;
+    padding: 0.75rem 0.875rem;
   }
 
   .filter-icon {
-    font-size: 1.3rem;
+    font-size: 1.2rem;
   }
 
   .filter-label {
-    font-size: 0.95rem;
+    font-size: 0.9rem;
   }
 
   .filter-stats {
     flex-direction: column;
-    gap: 0.75rem;
-    padding: 0.875rem;
+    gap: 0.5rem;
+    padding: 0.75rem;
   }
 
   .stat-item {
@@ -224,63 +225,63 @@
   }
 
   .stat-label {
-    font-size: 0.95rem;
+    font-size: 0.9rem;
   }
 
   .stat-value {
-    font-size: 1.05rem;
+    font-size: 1rem;
   }
 }
 
 /* Small Mobile */
 @media (max-width: 480px) {
   .task-filter-container {
-    margin: 1rem auto;
-    padding: 1rem;
-    border-radius: 12px;
+    margin: 0.5rem auto;
+    padding: 0.75rem;
+    border-radius: 10px;
   }
 
   .filter-header {
-    margin-bottom: 1.25rem;
+    margin-bottom: 1rem;
   }
 
   .filter-header h3 {
-    font-size: 1rem;
+    font-size: 0.95rem;
   }
 
   .filter-buttons {
-    gap: 0.65rem;
+    gap: 0.4rem;
   }
 
   .filter-btn {
-    padding: 0.75rem 0.875rem;
+    padding: 0.65rem 0.75rem;
   }
 
   .filter-icon {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
   }
 
   .filter-label {
-    font-size: 0.875rem;
+    font-size: 0.85rem;
   }
 
   .filter-count {
-    padding: 0.15rem 0.5rem;
-    font-size: 0.8rem;
+    padding: 0.1rem 0.4rem;
+    font-size: 0.75rem;
   }
 
   .filter-stats {
-    gap: 0.65rem;
-    padding: 0.75rem;
+    gap: 0.4rem;
+    padding: 0.65rem;
   }
 
   .stat-label {
-    font-size: 0.875rem;
+    font-size: 0.8rem;
   }
 
   .stat-value {
-    font-size: 1rem;
-    padding: 0.2rem 0.65rem;
+    font-size: 0.9rem;
+    padding: 0.15rem 0.5rem;
   }
 }
 
