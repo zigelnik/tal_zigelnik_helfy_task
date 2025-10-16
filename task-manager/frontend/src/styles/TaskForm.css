@@ -4,6 +4,52 @@
   margin: 2rem auto;
 }
 
+/* Desktop layout adjustments */
+@media (min-width: 993px) {
+  .task-form-container {
+    margin: 0;
+    max-width: none;
+    width: 100%;
+  }
+  
+  .task-form {
+    padding: 1.25rem;
+  }
+  
+  .form-header {
+    margin-bottom: 1.25rem;
+  }
+  
+  .form-header h2 {
+    font-size: 1.3rem;
+  }
+  
+  .form-group {
+    margin-bottom: 1.25rem;
+  }
+  
+  .task-input,
+  .task-textarea {
+    padding: 0.8rem;
+    font-size: 0.95rem;
+  }
+  
+  .priority-selector {
+    gap: 0.75rem;
+  }
+  
+  .priority-badge {
+    padding: 0.7rem;
+    font-size: 0.9rem;
+  }
+  
+  .submit-btn {
+    padding: 0.875rem 1.75rem;
+    font-size: 1.05rem;
+    margin-top: 1.25rem;
+  }
+}
+
 .task-form {
   background: white;
   border-radius: 16px;

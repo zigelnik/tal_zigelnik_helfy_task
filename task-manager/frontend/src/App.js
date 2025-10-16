@@ -131,7 +131,7 @@ function App() {
     <div className="App">
       <header className="App-header">
         <h1>📝 Task Manager</h1>
-        <p className="subtitle">Organize your tasks with an endless carousel</p>
+        <p className="subtitle">Organize, prioritize, and complete your tasks with ease.</p>
       </header>
 
       {error && (
@@ -143,31 +143,36 @@ function App() {
       )}
 
       <main className="App-main">
-        <TaskForm onAddTask={handleAddTask} />
-        
-        <TaskFilter
-          filter={filter}
-          onFilterChange={setFilter}
-          taskCounts={taskCounts}
-        />
+        <div className="main-layout">
+          <div className="left-panel">
+            <TaskFilter
+              filter={filter}
+              onFilterChange={setFilter}
+              taskCounts={taskCounts}
+            />
 
-        {loading ? (
-          <div className="loading-container">
-            <div className="spinner"></div>
-            <p>Loading tasks...</p>
+            {loading ? (
+              <div className="loading-container">
+                <div className="spinner"></div>
+                <p>Loading tasks...</p>
+              </div>
+            ) : (
+              <TaskList
+                tasks={filteredTasks}
+                onToggle={handleToggleTask}
+                onDelete={handleDeleteTask}
+                onEdit={handleEditTask}
+              />
+            )}
           </div>
-        ) : (
-          <TaskList
-            tasks={filteredTasks}
-            onToggle={handleToggleTask}
-            onDelete={handleDeleteTask}
-            onEdit={handleEditTask}
-          />
-        )}
+
+          <div className="right-panel">
+            <TaskForm onAddTask={handleAddTask} />
+          </div>
+        </div>
       </main>
 
-      <footer className="App-footer">
-      </footer>
+
     </div>
   );
 }
