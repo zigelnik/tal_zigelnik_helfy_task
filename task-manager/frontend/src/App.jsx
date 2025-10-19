@@ -162,6 +162,7 @@ function App() {
                 onToggle={handleToggleTask}
                 onDelete={handleDeleteTask}
                 onEdit={handleEditTask}
+                currentFilter={filter}
               />
             )}
           </div>

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import TaskItem from './TaskItem';
 import '../styles/TaskList.css';
 
-function TaskList({ tasks, onToggle, onDelete, onEdit }) {
+function TaskList({ tasks, onToggle, onDelete, onEdit, currentFilter }) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
   const [editingTaskId, setEditingTaskId] = useState(null);
@@ -10,12 +10,12 @@ function TaskList({ tasks, onToggle, onDelete, onEdit }) {
   const ANIMATION_MS = 200;
   const AUTO_SCROLL_INTERVAL = 2500;
 
-  // Reset currentIndex if it's out of bounds
+  // Always reset currentIndex to 0 if there are 1 or fewer tasks, or if out of bounds
   useEffect(() => {
-    if (tasks.length > 0 && currentIndex >= tasks.length) {
+    if (tasks.length <= 1 || currentIndex >= tasks.length) {
       setCurrentIndex(0);
     }
-  }, [tasks.length, currentIndex]);
+  }, [tasks.length]);
 
   // Auto-scroll carousel every {AUTO_SCROLL_INTERVA} seconds (pause when editing or hovered)
   useEffect(() => {
@@ -59,19 +59,19 @@ function TaskList({ tasks, onToggle, onDelete, onEdit }) {
     );
   }
 
-  // Create endless carousel effect by showing up to 3 unique tasks (prev, current, next)
+  // Robust getVisibleTasks: only show prev/next when >=2, else just 'current'
   const getVisibleTasks = () => {
     if (!tasks || tasks.length === 0) return [];
-
+    if (tasks.length === 1) {
+      return [{ task: tasks[0], position: 'current', index: 0 }];
+    }
     const prevIndex = (currentIndex - 1 + tasks.length) % tasks.length;
     const nextIndex = (currentIndex + 1) % tasks.length;
-
     const candidates = [
       { task: tasks[prevIndex], position: 'prev', index: prevIndex },
       { task: tasks[currentIndex], position: 'current', index: currentIndex },
       { task: tasks[nextIndex], position: 'next', index: nextIndex }
     ];
-
     const seen = new Set();
     return candidates.filter((item) => {
       if (!item.task) return false;
@@ -101,6 +101,7 @@ function TaskList({ tasks, onToggle, onDelete, onEdit }) {
                   onToggle={onToggle}
                   onDelete={onDelete}
                   onEdit={onEdit}
+                  currentFilter={currentFilter}
                   isActive={position === 'current'}
                   isEditing={editingTaskId === task.id}
                   onEditingChange={(isEditing) => setEditingTaskId(isEditing ? task.id : null)}

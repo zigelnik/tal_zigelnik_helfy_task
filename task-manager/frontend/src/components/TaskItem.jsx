@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import '../styles/TaskItem.css';
 
-function TaskItem({ task, onToggle, onDelete, onEdit, isActive, isEditing, onEditingChange }) {
+function TaskItem({ task, onToggle, onDelete, onEdit, isActive, isEditing, onEditingChange, currentFilter }) {
   const [editData, setEditData] = useState({
     title: task?.title || '',
     description: task?.description || '',
     priority: task?.priority || 'low'
   });
+  const [isRemoving, setIsRemoving] = useState(false);
 
   // Validate task prop
   if (!task) {
@@ -48,14 +49,27 @@ function TaskItem({ task, onToggle, onDelete, onEdit, isActive, isEditing, onEdi
     }
   };
 
+  const handleToggle = () => {
+    // When in pending view and marking as complete, animate out before removing from list
+    const isPendingView = currentFilter === 'pending';
+    if (isPendingView && !task.completed) {
+      setIsRemoving(true);
+      setTimeout(() => {
+        onToggle(task.id);
+      }, 200); // match CSS removing transition
+    } else {
+      onToggle(task.id);
+    }
+  };
+
   return (
-    <div className={`task-item ${task.completed ? 'completed' : ''} ${isActive ? 'active' : ''}`}>
+    <div className={`task-item ${task.completed ? 'completed' : ''} ${isActive ? 'active' : ''} ${isRemoving ? 'removing' : ''}`}>
       <div className="task-item-header">
         <div className="task-checkbox-wrapper">
           <input
             type="checkbox"
             checked={task.completed}
-            onChange={() => onToggle(task.id)}
+            onChange={handleToggle}
             className="task-checkbox"
             id={`task-${task.id}`}
           />
