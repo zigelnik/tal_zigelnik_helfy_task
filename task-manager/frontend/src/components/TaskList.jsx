@@ -6,6 +6,9 @@ function TaskList({ tasks, onToggle, onDelete, onEdit }) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
   const [editingTaskId, setEditingTaskId] = useState(null);
+  const [isPaused, setIsPaused] = useState(false);
+  const ANIMATION_MS = 200;
+  const AUTO_SCROLL_INTERVAL = 2500;
 
   // Reset currentIndex if it's out of bounds
   useEffect(() => {
@@ -14,38 +17,38 @@ function TaskList({ tasks, onToggle, onDelete, onEdit }) {
     }
   }, [tasks.length, currentIndex]);
 
-  // Auto-scroll carousel every 3 seconds (pause when editing)
+  // Auto-scroll carousel every {AUTO_SCROLL_INTERVA} seconds (pause when editing or hovered)
   useEffect(() => {
-    if (tasks.length === 0 || editingTaskId !== null) return;
+    if (tasks.length === 0 || editingTaskId !== null || isPaused) return;
 
     const interval = setInterval(() => {
       setIsAnimating(true);
       setCurrentIndex((prev) => (prev + 1) % tasks.length);
-      setTimeout(() => setIsAnimating(false), 300);
-    }, 3000);
+      setTimeout(() => setIsAnimating(false), ANIMATION_MS);
+    }, AUTO_SCROLL_INTERVAL);
 
     return () => clearInterval(interval);
-  }, [tasks.length, editingTaskId]);
+  }, [tasks.length, editingTaskId, isPaused]);
 
   const nextTask = () => {
     if (isAnimating || tasks.length === 0) return;
     setIsAnimating(true);
     setCurrentIndex((prev) => (prev + 1) % tasks.length);
-    setTimeout(() => setIsAnimating(false), 300);
+    setTimeout(() => setIsAnimating(false), ANIMATION_MS);
   };
 
   const prevTask = () => {
     if (isAnimating || tasks.length === 0) return;
     setIsAnimating(true);
     setCurrentIndex((prev) => (prev - 1 + tasks.length) % tasks.length);
-    setTimeout(() => setIsAnimating(false), 300);
+    setTimeout(() => setIsAnimating(false), ANIMATION_MS);
   };
 
   const goToTask = (index) => {
     if (isAnimating) return;
     setIsAnimating(true);
     setCurrentIndex(index);
-    setTimeout(() => setIsAnimating(false), 300);
+    setTimeout(() => setIsAnimating(false), ANIMATION_MS);
   };
 
   if (tasks.length === 0) {
@@ -56,22 +59,34 @@ function TaskList({ tasks, onToggle, onDelete, onEdit }) {
     );
   }
 
-  // Create endless carousel effect by showing 3 tasks (prev, current, next)
+  // Create endless carousel effect by showing up to 3 unique tasks (prev, current, next)
   const getVisibleTasks = () => {
     if (!tasks || tasks.length === 0) return [];
-    
+
     const prevIndex = (currentIndex - 1 + tasks.length) % tasks.length;
     const nextIndex = (currentIndex + 1) % tasks.length;
-    
-    return [
+
+    const candidates = [
       { task: tasks[prevIndex], position: 'prev', index: prevIndex },
       { task: tasks[currentIndex], position: 'current', index: currentIndex },
       { task: tasks[nextIndex], position: 'next', index: nextIndex }
-    ].filter(item => item.task); // Filter out any undefined tasks
+    ];
+
+    const seen = new Set();
+    return candidates.filter((item) => {
+      if (!item.task) return false;
+      if (seen.has(item.index)) return false;
+      seen.add(item.index);
+      return true;
+    });
   };
 
   return (
-    <div className="task-list-container">
+    <div
+      className="task-list-container"
+      onMouseEnter={() => setIsPaused(true)}
+      onMouseLeave={() => setIsPaused(false)}
+    >
       <button className="carousel-btn prev-btn" onClick={prevTask}>
         ‹
       </button>
@@ -80,7 +95,7 @@ function TaskList({ tasks, onToggle, onDelete, onEdit }) {
         <div className={`carousel-track ${isAnimating ? 'animating' : ''}`}>
           {getVisibleTasks().map(({ task, position, index }) => (
             task && (
-              <div key={`${task.id}-${position}`} className={`carousel-item ${position}`}>
+              <div key={task.id} className={`carousel-item ${position}`}>
                 <TaskItem
                   task={task}
                   onToggle={onToggle}
