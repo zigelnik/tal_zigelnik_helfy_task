@@ -8,6 +8,7 @@ import './styles/App.css';
 function App() {
   const [tasks, setTasks] = useState([]);
   const [filter, setFilter] = useState('all');
+  const [searchQuery, setSearchQuery] = useState('');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -107,15 +108,24 @@ function App() {
   // Filter tasks
   const getFilteredTasks = () => {
     if (!Array.isArray(tasks)) return [];
-    
+    let filtered = tasks.filter(task => task); // filter out undefined/null
     switch (filter) {
       case 'pending':
-        return tasks.filter(task => task && !task.completed);
+        filtered = filtered.filter(task => !task.completed); break;
       case 'completed':
-        return tasks.filter(task => task && task.completed);
+        filtered = filtered.filter(task => task.completed); break;
       default:
-        return tasks.filter(task => task); // Filter out any undefined/null tasks
+        break;
     }
+    // Search
+    if (searchQuery.trim() !== '') {
+      const q = searchQuery.trim().toLowerCase();
+      filtered = filtered.filter(task =>
+        (task.title && task.title.toLowerCase().includes(q)) ||
+        (task.description && task.description.toLowerCase().includes(q))
+      );
+    }
+    return filtered;
   };
 
   // Calculate task counts
@@ -150,7 +160,15 @@ function App() {
               onFilterChange={setFilter}
               taskCounts={taskCounts}
             />
-
+            <div className="task-search-bar">
+              <input
+                type="text"
+                placeholder="Search tasks..."
+                value={searchQuery}
+                onChange={e => setSearchQuery(e.target.value)}
+                aria-label="Search tasks"
+              />
+            </div>
             {loading ? (
               <div className="loading-container">
                 <div className="spinner"></div>
